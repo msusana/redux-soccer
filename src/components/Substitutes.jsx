@@ -22,7 +22,7 @@ const Substitutes = ({substitutes, removeSubstitute}) => (
 )
 const mapStateToProps = state =>{
     return{ 
-        substitutes: state.substitutes
+        substitutes: state.dataTeam.substitutes
     }
 }
 

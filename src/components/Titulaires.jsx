@@ -23,7 +23,7 @@ const Titulaires = ({titulares, removeTitular}) => (
 )
 const mapStateToProps = state =>{
     return{
-        titulares: state.titulares
+        titulares: state.dataTeam.titulares
     }
 }
 const mapDispatchToProps = dispatch => {

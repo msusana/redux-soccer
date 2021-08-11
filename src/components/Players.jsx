@@ -1,10 +1,15 @@
 import React, { useEffect, createRef } from "react"
 import { connect } from "react-redux";
+import {fetchData, fetchTeam} from '../redux/actions/team'
 
-const Players = ({players, addTitular, addSubstitutes}) => { 
+
+
+const Players = ({players, addTitular, addSubstitutes, getData, getTeam, idTeam, teamName}) => { 
     const gridJugadores = createRef()
-
-    useEffect(() => {
+    
+    useEffect(async() => {
+        await getData(teamName)
+        await getTeam(idTeam)
       setScrollContainer()
       document.addEventListener('click', setScrollContainer)
     }, []) 
@@ -42,6 +47,8 @@ return (<section>
                 <article className='player' key={player.id}>
                     <img src={player.photo}></img>
                     <h3>{player.name}</h3>
+                    <h3>{player.age} ans</h3>
+                    <h3>Position : {player.position}</h3>
                         <div>
                             <button className='playerTitular1' onClick={() => addTitular(player)}>Titulaire</button>
                             <button className='playerTitular2' onClick = {() => addSubstitutes(player)}>Remplaçant</button>
@@ -53,9 +60,13 @@ return (<section>
         </div>
 </section>
 )}
+
 const mapStateToProps = (state) =>{
+    console.log(state)
     return {
-        players: state.players
+        players: state.dataTeam.players,
+        idTeam: state.dataApi.teamId,
+        teamName : state.dataTeam.team.name
      }
 }
 const mapDispatchToProps = dispatch => {
@@ -71,9 +82,10 @@ const mapDispatchToProps = dispatch => {
             type: 'ADD_SUBSTITUTE',
             player
         })
-    }    
+    },    
+    getData: (teamName)=> dispatch(fetchData(teamName)),
+    getTeam: (idTeam)=> dispatch(fetchTeam(idTeam))
 
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Players)
