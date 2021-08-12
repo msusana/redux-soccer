@@ -3,37 +3,44 @@ import { connect } from "react-redux";
 import {fetchData, fetchTeam} from '../redux/actions/team'
  
 
-const Search = ({team, getData, getTeam, idTeam}) => {
+const Search = ({team, getData}) => {
 
 let search
 const onChange = (event) => {
-    console.log(event.target.value);
+    console.log(search)
     return search = event.target.value
   };
-const onSearch = async() =>{
+const onSearch = () =>{
     console.log(search)
-    // await getData(search)
-    // await getTeam(idTeam)
+   let inputSearch = document.querySelector('.inputSearch')
+   inputSearch.value = " "
+     getData(search)
+    search = ""
+ 
+ 
 } 
 return(
 
 
-<section>
-    <input placeholder="team" onChange={(e)=>onChange(e)} value={search} />            
-    <button type="submit" onClick={()=>onSearch()} >Search team</button> 
-    <h1>{team.name}</h1>    
+<section >
+    <div className='search'>
+        <input placeholder="team" onChange={(e)=>onChange(e)} className='inputSearch'/>            
+        <button type="submit" onClick={()=>onSearch()} className='buttonSearch'>Search team</button> 
+    </div>
+    <div className='logo'>
+        <h1>{team.name}</h1>  
+        <img src={team.logo} />  
+    </div>
 </section>
 )}
 const mapStateToProps = state =>{
     return{
-        team: state.dataTeam.team,
-        idTeam: state.dataApi.teamId
+        team: state.team,
     }
 }
 const mapDispatchToProps = dispatch => {
     return{
         getData: (team)=> dispatch(fetchData(team)),
-        getTeam: (idTeam)=> dispatch(fetchTeam(idTeam))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Search)

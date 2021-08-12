@@ -11,9 +11,8 @@ const Titulaires = ({titulares, removeTitular}) => (
                 <article className='titular' key = {titular.id}>
                         <div>
                             <img src={titular.photo}></img>
-                            <button onClick={()=> removeTitular(titular)}>X</button>
+                            <button className='titularButton' onClick={()=> removeTitular(titular)}>X</button>
                         </div>
-                        <p> {titular.name}</p>
                 </article> 
                 ))
             }
@@ -23,7 +22,7 @@ const Titulaires = ({titulares, removeTitular}) => (
 )
 const mapStateToProps = state =>{
     return{
-        titulares: state.dataTeam.titulares
+        titulares: state.titulares
     }
 }
 const mapDispatchToProps = dispatch => {

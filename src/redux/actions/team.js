@@ -18,12 +18,7 @@ export const getDataSuccess = (data) => {
         data
     }
 }
-export const getTeamId = (data) => {
-    return {
-        type : 'GETTING_TEAM_ID',
-        data
-    }
-}
+
 export const getDataFailure = () => {
     return {
         type : 'FETCHING_DATA_FAILURE'
@@ -31,8 +26,8 @@ export const getDataFailure = () => {
 }
 
 export const fetchData = (teamSearch) => {
-    return (dispatch) => {
 
+    return (dispatch) => {
     dispatch(getData())
        
         return fetch( `https://v3.football.api-sports.io/teams?name=${teamSearch}`, {
@@ -43,18 +38,19 @@ export const fetchData = (teamSearch) => {
             }
         })
         .then((response, json) => {
-            console.log(response)
             return response.json()
-        }).then((data)=> {
-            console.log(data);
-            dispatch(getTeamId(data))
-
-
-        })
+        }).then(async(data) => {
+            let teamIdtest = data.response[0].team.id
+       
+            await dispatch(fetchTeam(teamIdtest.toString()))
+        }).catch((err) => 
+            dispatch(getDataFailure())
+        );
         
     }
 }
 export const fetchTeam = (idTeam) => {
+    console.log('idteam', idTeam)
     return (dispatch) => {
 
          
@@ -65,17 +61,16 @@ export const fetchTeam = (idTeam) => {
                 "x-rapidapi-host": "v3.football.api-sports.io"
             }
         })
-        .then((response, json) => {
-            console.log(response)
+        .then((response)  => {
             return response.json()
-        }).then((data)=> {
-            console.log(data);
+        }).then((data) => {
             dispatch(getDataSuccess(data))
 
         })
         .catch((err) => 
-            console.error(err))
+            dispatch(getDataFailure())
+        ); 
+            
         
     }
 }
-

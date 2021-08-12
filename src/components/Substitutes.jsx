@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 
-const Substitutes = ({substitutes, removeSubstitute}) => (
+const Substitutes = ({substitutes, removeSubstitute}) => {
+return(
 <section>
     <h2>Remplaçant</h2>
         <div className='field'>
+            
             {
                 substitutes.map(substitute => (
                 <article className='substitute' key ={substitute.id}>
@@ -12,17 +14,17 @@ const Substitutes = ({substitutes, removeSubstitute}) => (
                             <img src={substitute.photo}></img>
                             <button onClick={()=>removeSubstitute(substitute)}>X</button>
                         </div>
-                        <p> {substitute.name}</p>
                 </article> 
                 ))
             }
+            </div>
            
-        </div>
+    
 </section>
-)
+)}
 const mapStateToProps = state =>{
     return{ 
-        substitutes: state.dataTeam.substitutes
+        substitutes: state.substitutes
     }
 }
 

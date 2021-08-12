@@ -4,16 +4,18 @@ import {fetchData, fetchTeam} from '../redux/actions/team'
 
 
 
-const Players = ({players, addTitular, addSubstitutes, getData, getTeam, idTeam, teamName}) => { 
+const Players = ({players, addTitular, addSubstitutes, titularesNumber}) => { 
     const gridJugadores = createRef()
-    
     useEffect(async() => {
-        await getData(teamName)
-        await getTeam(idTeam)
       setScrollContainer()
       document.addEventListener('click', setScrollContainer)
     }, []) 
     
+    const button = (player) =>{
+        return(
+             <button className='playerTitular1' onClick={() => addTitular(player)}>Titulaire</button>
+        )
+    }
     // Función que fija el tamaño del grid de los jugadores
     const setScrollContainer = (desktop = true) => {
       let container = gridJugadores.current
@@ -49,8 +51,11 @@ return (<section>
                     <h3>{player.name}</h3>
                     <h3>{player.age} ans</h3>
                     <h3>Position : {player.position}</h3>
-                        <div>
-                            <button className='playerTitular1' onClick={() => addTitular(player)}>Titulaire</button>
+                        <div className='buttonPlayers'>
+                            { titularesNumber <= 10 &&
+                            button(player)
+                            }
+                            
                             <button className='playerTitular2' onClick = {() => addSubstitutes(player)}>Remplaçant</button>
                         </div>
                 </article> 
@@ -64,9 +69,8 @@ return (<section>
 const mapStateToProps = (state) =>{
     console.log(state)
     return {
-        players: state.dataTeam.players,
-        idTeam: state.dataApi.teamId,
-        teamName : state.dataTeam.team.name
+        players: state.players,
+        titularesNumber : state.titularesNumber
      }
 }
 const mapDispatchToProps = dispatch => {

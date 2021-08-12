@@ -36,13 +36,12 @@ export const initialState = {
       {id: 10009, name: "Rodrygo", age: 20, number: 25, position: "Attacker", photo: "https://media.api-sports.io/football/players/10009.png"}
       
   ],
-    team: {id: 541, logo: "https://media.api-sports.io/football/teams/541.png", name: "Barcelona"},
+    team: {id: 541, logo: "https://media.api-sports.io/football/teams/541.png", name:"Real Madrid"},
     titulares : [],
     substitutes : [], 
-    data : [], 
     isFetching : false,
     error : false,
-    teamId: 0
+    titularesNumber : 0,
   };
    
   export const dataTeams = (state = initialState, action) => {
@@ -52,7 +51,8 @@ export const initialState = {
               return{
                 ...state, 
                 titulares : state.titulares.concat(action.player),
-                players : state.players.filter( player => player.id !== action.player.id)
+                players : state.players.filter( player => player.id !== action.player.id),
+                ...state.titularesNumber , titularesNumber : state.titularesNumber + 1
               }
           }
           case "ADD_SUBSTITUTE":{
@@ -66,7 +66,8 @@ export const initialState = {
             return{
               ...state, 
               titulares : state.titulares.filter( titular => titular.id !== action.titular.id),
-              players : state.players.concat(action.titular)
+              players : state.players.concat(action.titular),
+              ...state.titularesNumber , titularesNumber : state.titularesNumber -1
             }
         }
           case "REMOVE_SUBSTITUTE":{
@@ -76,6 +77,32 @@ export const initialState = {
                 players: state.players.concat(action.substitute)
             }
           }
+          case "FETCHING_DATA":{
+            return{
+              ...state, 
+            players: [],
+            team : [],
+            titulares : [],
+            substitutes : [], 
+            titularesNumber : 0,
+            isFetching : true
+            }
+        }
+        case "FETCHING_DATA_SUCCESS":{
+          return{
+              ...state, 
+              players:action.data.response[0].players,
+              team : action.data.response[0].team,
+            isFetching : false
+          }
+        }  
+        case "FETCHING_DATA_FAILURE":{
+            return{
+                ...state, 
+             isFetching: false, 
+             error : true
+            }
+          } 
         
           default:
             return state

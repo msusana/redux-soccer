@@ -3,11 +3,7 @@
     margin: 0;
     box-sizing: border-box;
   }  
-  
-  :root {
-    --spacing: 0.75rem;
-  }
-  
+ 
   body {
     font-family: sans-serif;
     background: #102132
@@ -17,6 +13,7 @@
     color: white;
     margin-bottom: 3rem;
     font-size: 2.5rem;
+    text-align: center;
   }
   
   h2 {
@@ -47,8 +44,14 @@
     overflow: auto;
     padding-bottom: 2rem;
   }
-  
-  section>div:not(.field):not(.contenedor-players) {
+  .logo{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  section>div:not(.field):not(.contenedor-players):not(.search):not(.logo) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 2rem;
@@ -62,7 +65,26 @@
         grid-template-columns: repeat(6, 1fr); 
         }
     }
-  
+
+  .search{
+    text-align: center;
+    padding-bottom: 2%;
+  }
+    
+  .buttonSearch{
+    color: #fff;
+      background-color: #2A8CE1;
+      margin-left: 0.75rem;
+  }
+
+  .inputSearch{
+    width: 30%;
+    height: 30px;
+    background-color: transparent;
+    border-style: solid;
+    border-color: #2A8CE1;
+    color: white;
+  }
   article img {
     --size: 4.5rem;
     width: var(--size);
@@ -89,9 +111,13 @@
     border-radius: 0.25rem;
     box-shadow: 0 2px 4px 2px rgba(#000, 0.05);
     border: 1px solid #104266;
+    --spacing: 0.75rem;
   
   }    
-  
+  .player .buttonPlayers{
+    display: flex;
+    flex-direction: row;
+  }
 button {
       line-height: 2rem;
       padding: 0 1rem;
@@ -137,35 +163,17 @@ button {
       position: relative;
     }
   
-    .titular,
-    .substitute p {
-      color: #fff;
-      background-color: rgba(#000, 0.5);
-      padding: 0 1rem;
-      line-height: 2;
-      border-radius: 1rem;
-      font-size: 0.9rem;
-    }
   
-    .titular,
-    .substitute button {
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      right: 0;
-      top: 0;
+     .titularButton, .substitute button {
+      font-weight: bold;
       color: #fff;
-      width: 1.15rem;
-      height: 1.15rem;
-      border-radius: 50%;
+      width: 2.0rem;
+      height: 2.0rem;
+      text-align: center;
       background-color: #E40320;
-      display: none;
+      padding: 0;
     }
-    .titular,
-    .substitute button:hover {
-        background-color: darken(#E40320, 5);     
-        display: flex;
-      }
+   
   
   
   .field {
@@ -173,19 +181,43 @@ button {
     width: 75%;
     position: relative;
   }
- 
-    .field .titular {
-      position: absolute;
+  .field{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     }
+  .field article{
+    width: 15%;
+  }
+  .field .titular {
+    position: absolute;
+  }
+
+.field .titular img {
+  width: 3rem;
+  height: 3rem;
+}
+@media screen and (max-width: 640px) {
       .field .titular img {
-        --size: 3rem;
+        width: 1rem;
+        height: 1rem;
       }
+      .titularButton, .substitute button {
+        color: #fff;
+        width: 1.0rem;
+        height: 1.0rem;
+        text-align: center;
+        background-color: #E40320;
+        padding: 0;
+        line-height: 0;
+      }
+      .field article{
+        width: 40%;
+      }
+    }
   
-    
-  
-        @media screen and (max-width: 640px) {
-            .field .titular p {display: none;}
-        }
+ 
   
     
   
